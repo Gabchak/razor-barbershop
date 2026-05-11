@@ -1,0 +1,157 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    @apply font-sans bg-bone text-ink overflow-x-hidden;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  .dark body {
+    background-color: #141412;
+    color: #F7F6F3;
+  }
+
+  h1, h2, h3 {
+    @apply font-serif font-black leading-none tracking-tight;
+  }
+}
+
+@layer components {
+  .mono-tag {
+    @apply font-mono text-[0.72rem] tracking-[0.14em] uppercase text-accent;
+  }
+
+  /* ─── Fade Up ─── */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+  /* ─── Fade Left ─── */
+  .fade-left {
+    opacity: 0;
+    transform: translateX(-28px);
+    transition: opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .fade-left.visible { opacity: 1; transform: translateX(0); }
+
+  /* ─── Fade Right ─── */
+  .fade-right {
+    opacity: 0;
+    transform: translateX(28px);
+    transition: opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .fade-right.visible { opacity: 1; transform: translateX(0); }
+
+  /* ─── Scale In ─── */
+  .scale-in {
+    opacity: 0;
+    transform: scale(0.93) translateY(10px);
+    transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .scale-in.visible { opacity: 1; transform: scale(1) translateY(0); }
+
+  /* Stagger delays */
+  .fade-up:nth-child(2), .scale-in:nth-child(2) { transition-delay: 0.08s; }
+  .fade-up:nth-child(3), .scale-in:nth-child(3) { transition-delay: 0.16s; }
+  .fade-up:nth-child(4), .scale-in:nth-child(4) { transition-delay: 0.24s; }
+  .fade-up:nth-child(5), .scale-in:nth-child(5) { transition-delay: 0.32s; }
+}
+
+@layer utilities {
+  /* Ken Burns slides */
+  .slide-1 { animation: kenBurns 24s ease-in-out infinite 0s; background-position: center 30%; }
+  .slide-2 { animation: kenBurns 24s ease-in-out infinite 8s; background-position: center 20%; }
+  .slide-3 { animation: kenBurns 24s ease-in-out infinite 16s; background-position: center top; }
+
+  /* Scroll progress */
+  .scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #A89070, #d4b896);
+    z-index: 9999;
+    transition: width 0.08s linear;
+    border-radius: 0 1px 1px 0;
+  }
+
+  /* Barber pole */
+  .barber-pole {
+    background: repeating-linear-gradient(
+      -45deg,
+      #c8102e 0px, #c8102e 8px,
+      #fff    8px, #fff   16px,
+      #001489 16px, #001489 24px,
+      #fff    24px, #fff   32px
+    );
+    animation: poleRotate 1.4s linear infinite;
+  }
+
+  /* ─── Keyframes ─── */
+  @keyframes kenBurns {
+    0%   { opacity: 0;    transform: scale(1.08) translate(0px, 0px); }
+    5%   { opacity: 1; }
+    30%  { opacity: 1;    transform: scale(1.0) translate(-8px, -4px); }
+    38%  { opacity: 0;    transform: scale(0.98) translate(-12px, -6px); }
+    100% { opacity: 0;    transform: scale(1.08) translate(0px, 0px); }
+  }
+
+  @keyframes poleRotate {
+    from { background-position: 0 0; }
+    to   { background-position: 0 40px; }
+  }
+
+  /* Loader keyframes */
+  @keyframes scissorsAppear {
+    from { opacity: 0; transform: scale(0.65) translateY(12px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  @keyframes bladeOpen {
+    0%   { transform: rotate(0deg); }
+    30%  { transform: rotate(-20deg); }
+    65%  { transform: rotate(-20deg); }
+    82%  { transform: rotate(3deg); }
+    100% { transform: rotate(0deg); }
+  }
+
+  @keyframes bladeClose {
+    0%   { transform: rotate(0deg); }
+    30%  { transform: rotate(20deg); }
+    65%  { transform: rotate(20deg); }
+    82%  { transform: rotate(-3deg); }
+    100% { transform: rotate(0deg); }
+  }
+
+  @keyframes loaderTextReveal {
+    from { clip-path: inset(0 100% 0 0); opacity: 1; }
+    to   { clip-path: inset(0 0% 0 0);   opacity: 1; }
+  }
+
+  @keyframes loaderSubFade {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes lineGrow {
+    from { transform: scaleX(0); }
+    to   { transform: scaleX(1); }
+  }
+}
